@@ -1,28 +1,25 @@
-def sieve_of_eratosthenes(limit):
-    is_prime = [True] * (limit + 1)
+def sieve_of_eratosthenes(max_num):
+    is_prime = [True] * (max_num + 1)
     p = 2
-    while (p * p <= limit):
+    while (p * p <= max_num):
         if (is_prime[p] == True):
-            for i in range(p * p, limit + 1, p):
+            for i in range(p * p, max_num + 1, p):
                 is_prime[i] = False
         p += 1
-    primes = []
-    for p in range(2, limit + 1):
-        if is_prime[p]:
-            primes.append(p)
-    return primes
-
-primes = sieve_of_eratosthenes(1000000)
+    prime_list = [p for p in range(2, max_num + 1) if is_prime[p]]
+    return prime_list
 
 N = int(input())
+primes = sieve_of_eratosthenes(1000000)
+
 for _ in range(N):
     S = int(input())
-    is_valid_key = True
+    is_valid = True
     for prime in primes:
         if S % prime == 0:
-            is_valid_key = False
+            is_valid = False
             break
-    if is_valid_key:
+    if is_valid:
         print('YES')
     else:
         print('NO')
