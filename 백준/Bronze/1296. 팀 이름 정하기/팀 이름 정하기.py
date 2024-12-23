@@ -1,19 +1,23 @@
-def count_love(name):
-    return {char: name.count(char) for char in 'LOVE'}
-
-yundoo_name = input()
-yundoo_love = count_love(yundoo_name)
-N = int(input())
-results = []
+yeondoo_name = input().strip()
+N = int(input().strip())
+best_team = ""
+max_probability = -1
 
 for _ in range(N):
-    team_name = input()
-    team_love = count_love(team_name)
-    L = yundoo_love['L'] + team_love['L']
-    O = yundoo_love['O'] + team_love['O']
-    V = yundoo_love['V'] + team_love['V']
-    E = yundoo_love['E'] + team_love['E']
-    winning_prob = ((L+O) * (L+V) * (L+E) * (O+V) * (O+E) * (V+E)) % 100
-    results.append((team_name, winning_prob))
-results.sort(key=lambda x: (-x[1], x[0]))
-print(results[0][0])
+    team_name = input().strip()
+    count_L = count_O = count_V = count_E = 0
+    for char in yeondoo_name + team_name:
+        if char == 'L':
+            count_L += 1
+        elif char == 'O':
+            count_O += 1
+        elif char == 'V':
+            count_V += 1
+        elif char == 'E':
+            count_E += 1
+    probability = ((count_L + count_O) * (count_L + count_V) * (count_L + count_E) * (count_O + count_V) * (count_O + count_E) * (count_V + count_E)) % 100
+    if probability > max_probability or (probability == max_probability and team_name < best_team):
+        max_probability = probability
+        best_team = team_name
+
+print(best_team)
