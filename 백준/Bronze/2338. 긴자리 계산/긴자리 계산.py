@@ -1,14 +1,12 @@
-A = int(input())  # 첫 번째 수를 입력받습니다.
-B = int(input())  # 두 번째 수를 입력받습니다.
+A = int(input())  # 첫 번째 정수 입력
+B = int(input())  # 두 번째 정수 입력
 
-# A와 B의 합을 계산합니다.
+# 덧셈, 뺄셈, 곱셈 연산 수행
 sum_result = A + B
-# A와 B의 차를 계산합니다.
-difference_result = A - B
-# A와 B의 곱을 계산합니다.
-product_result = A * B
+sub_result = A - B
+mul_result = A * B
 
-# 각 결과를 출력합니다.
-print(sum_result)
-print(difference_result)
-print(product_result)
+# 결과 출력
+print(sum_result)  # 덧셈 결과 출력
+print(sub_result)  # 뺄셈 결과 출력
+print(mul_result)  # 곱셈 결과 출력
