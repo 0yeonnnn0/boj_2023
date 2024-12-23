@@ -1,11 +1,14 @@
 N = int(input())
+largest_gold_number = 0
 
 for i in range(N, 3, -1):
-    isGeumMinSu = True
+    is_gold_number = True
     for digit in str(i):
         if digit != '4' and digit != '7':
-            isGeumMinSu = False
+            is_gold_number = False
             break
-    if isGeumMinSu:
-        print(i)
+    if is_gold_number:
+        largest_gold_number = i
         break
+
+print(largest_gold_number)
