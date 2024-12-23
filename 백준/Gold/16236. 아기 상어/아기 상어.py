@@ -1,12 +1,29 @@
 from collections import deque
 
-# BFS를 사용하여 아기 상어가 먹을 수 있는 가장 가까운 물고기를 찾습니다.
-def bfs(shark_position, shark_size, grid, N):
+N = int(input())
+grid = [list(map(int, input().split())) for _ in range(N)]
+
+# 초기 설정
+shark_size = 2
+fish_eaten = 0
+total_time = 0
+
+# 아기 상어의 초기 위치 찾기
+def find_shark():
+    for i in range(N):
+        for j in range(N):
+            if grid[i][j] == 9:
+                grid[i][j] = 0
+                return i, j
+
+# BFS를 사용하여 물고기를 찾는 함수
+def bfs(shark_pos):
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-    queue = deque([shark_position])
+    queue = deque([shark_pos])
     visited = [[False] * N for _ in range(N)]
-    visited[shark_position[0]][shark_position[1]] = True
-    fish_list = []
+    visited[shark_pos[0]][shark_pos[1]] = True
+    min_distance = float('inf')
+    target_fish = None
     distance = 0
 
     while queue:
@@ -19,44 +36,35 @@ def bfs(shark_position, shark_size, grid, N):
                         visited[nx][ny] = True
                         queue.append((nx, ny))
                         if 0 < grid[nx][ny] < shark_size:
-                            fish_list.append((distance + 1, nx, ny))
+                            if distance + 1 < min_distance:
+                                min_distance = distance + 1
+                                target_fish = (nx, ny)
+                            elif distance + 1 == min_distance:
+                                if target_fish:
+                                    if (nx < target_fish[0]) or (nx == target_fish[0] and ny < target_fish[1]):
+                                        target_fish = (nx, ny)
         distance += 1
-        if fish_list:
+        if target_fish:
             break
+    return target_fish, min_distance
 
-    fish_list.sort()
-    return fish_list[0] if fish_list else None
+shark_pos = find_shark()
 
-# 메인 함수
-N = int(input())
-grid = [list(map(int, input().split())) for _ in range(N)]
-shark_size = 2
-shark_position = (0, 0)
-
-# 아기 상어의 초기 위치 찾기
-for i in range(N):
-    for j in range(N):
-        if grid[i][j] == 9:
-            shark_position = (i, j)
-            grid[i][j] = 0
-            break
-
-time = 0
-eaten_fish_count = 0
-
+# 반복적으로 물고기를 먹기
 while True:
-    result = bfs(shark_position, shark_size, grid, N)
-    if not result:
+    target_fish, min_distance = bfs(shark_pos)
+    if not target_fish:
         break
 
-    distance, nx, ny = result
-    time += distance
-    shark_position = (nx, ny)
-    grid[nx][ny] = 0
-    eaten_fish_count += 1
+    # 물고기를 먹고 위치 및 시간 업데이트
+    shark_pos = target_fish
+    grid[shark_pos[0]][shark_pos[1]] = 0
+    total_time += min_distance
+    fish_eaten += 1
 
-    if eaten_fish_count == shark_size:
+    # 상어 크기 증가
+    if fish_eaten == shark_size:
         shark_size += 1
-        eaten_fish_count = 0
+        fish_eaten = 0
 
-print(time)
+print(total_time)
