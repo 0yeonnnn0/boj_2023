@@ -2,11 +2,11 @@ from collections import deque
 
 N, K = map(int, input().split())
 queue = deque(range(1, N + 1))
-result = []
+josephus_sequence = []
 
 while queue:
     for _ in range(K - 1):
-        queue.append(queue.popleft())  # K-1번 만큼 앞에서 꺼내 뒤로 삽입
-    result.append(queue.popleft())  # K번째 사람 제거
+        queue.append(queue.popleft())  # K-1번 앞의 사람을 뒤로 보냅니다
+    josephus_sequence.append(queue.popleft())  # K번째 사람을 제거합니다
 
-print('<' + ', '.join(map(str, result)) + '>')
+print('<' + ', '.join(map(str, josephus_sequence)) + '>')
